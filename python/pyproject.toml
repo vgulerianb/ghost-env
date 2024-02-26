@@ -1,0 +1,20 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ghost-env"
+version = "0.1.0"
+description = "Deterministic fake APIs for AI agent tests"
+readme = "README.md"
+license = "Apache-2.0"
+requires-python = ">=3.10"
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/ghost_env"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
