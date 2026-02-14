@@ -1,6 +1,6 @@
 # ghost-env
 
-Deterministic **fake GitHub, Stripe, and Postgres-shaped data** for agent tests — with **recording**, **HAR/JSON export**, **eval scenarios**, **replay fixtures**, and optional **chaos** (latency / random 500s).
+Deterministic **fake APIs** for agent tests — built-in presets for **GitHub**, **Stripe**, **Postgres-shaped** queries, **OpenAI**-style chat, **Anthropic** messages, **S3**-shaped object GET/list, and **Slack** Web API — plus **recording**, **HAR/JSON export**, **eval**, **replay**, and optional **chaos** (latency / random failures).
 
 ```bash
 npm install ghost-env

@@ -5,6 +5,9 @@ import {
   stripe,
   postgres,
   openai,
+  s3,
+  slack,
+  anthropic,
   exportRecordingJSON,
   runEval,
   defineScenario,
@@ -101,6 +104,60 @@ describe("GhostEnv", () => {
       providers: [github({ issues: [{ repo: "a/b", title: "t" }] })],
     });
     await expect(env.fetch("https://api.github.com/repos/a/b/issues")).rejects.toThrow();
+  });
+
+  it("S3 path-style get object", async () => {
+    const env = new GhostEnv({
+      providers: [
+        s3({
+          objects: [{ bucket: "acme-docs", key: "a/b.txt", body: "hello" }],
+        }),
+      ],
+    });
+    const res = await env.fetch("https://s3.amazonaws.com/acme-docs/a/b.txt");
+    expect(res.status).toBe(200);
+    expect(await res.text()).toBe("hello");
+  });
+
+  it("S3 list bucket (list-type=2)", async () => {
+    const env = new GhostEnv({
+      providers: [
+        s3({
+          objects: [
+            { bucket: "b", key: "p/x", body: "1" },
+            { bucket: "b", key: "p/y", body: "2" },
+          ],
+        }),
+      ],
+    });
+    const res = await env.fetch("https://s3.amazonaws.com/b?list-type=2&prefix=p/");
+    expect(res.status).toBe(200);
+    const j = (await res.json()) as { KeyCount: number };
+    expect(j.KeyCount).toBe(2);
+  });
+
+  it("Slack chat.postMessage", async () => {
+    const env = new GhostEnv({ providers: [slack()] });
+    const res = await env.fetch("https://slack.com/api/chat.postMessage", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ channel: "C1", text: "hi" }),
+    });
+    const j = (await res.json()) as { ok: boolean; message: { text: string } };
+    expect(j.ok).toBe(true);
+    expect(j.message.text).toContain("hi");
+  });
+
+  it("Anthropic messages preset", async () => {
+    const env = new GhostEnv({
+      providers: [anthropic({ texts: ["alpha", "beta"] })],
+    });
+    const r1 = await env.fetch("https://api.anthropic.com/v1/messages", { method: "POST", body: "{}" });
+    const r2 = await env.fetch("https://api.anthropic.com/v1/messages", { method: "POST", body: "{}" });
+    const a = (await r1.json()) as { content: Array<{ text: string }> };
+    const b = (await r2.json()) as { content: Array<{ text: string }> };
+    expect(a.content[0].text).toBe("alpha");
+    expect(b.content[0].text).toBe("beta");
   });
 
   it("runEval scenarios", async () => {
