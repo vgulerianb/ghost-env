@@ -9,6 +9,10 @@ import {
   slack,
   anthropic,
   exportRecordingJSON,
+  exportRecordingMarkdown,
+  exportHAR,
+  ReplayFixture,
+  type CallRecord,
   runEval,
   defineScenario,
 } from "./index.js";
@@ -158,6 +162,125 @@ describe("GhostEnv", () => {
     const b = (await r2.json()) as { content: Array<{ text: string }> };
     expect(a.content[0].text).toBe("alpha");
     expect(b.content[0].text).toBe("beta");
+  });
+
+  it("throws when no provider matches", async () => {
+    const env = new GhostEnv({ providers: [github({ issues: [] })] });
+    await expect(env.fetch("https://example.com/nope")).rejects.toThrow(/no provider matched/i);
+    expect(env.calls("error").length).toBeGreaterThanOrEqual(1);
+  });
+
+  it("accepts URL object as fetch input", async () => {
+    const env = new GhostEnv({
+      providers: [github({ issues: [{ repo: "acme/api", title: "U", body: "" }] })],
+    });
+    const res = await env.fetch(new URL("https://api.github.com/repos/acme/api/issues"));
+    expect(res.status).toBe(200);
+  });
+
+  it("reset clears recordings and allows fresh calls", async () => {
+    const env = new GhostEnv({
+      providers: [github({ issues: [{ repo: "acme/api", title: "t", body: "" }] })],
+    });
+    await env.fetch("https://api.github.com/repos/acme/api/issues");
+    expect(env.calls().length).toBeGreaterThan(0);
+    env.reset();
+    expect(env.calls().length).toBe(0);
+    await env.fetch("https://api.github.com/repos/acme/api/issues");
+    expect(env.calls().length).toBeGreaterThan(0);
+  });
+
+  it("wasCalled supports pathIncludes", async () => {
+    const env = new GhostEnv({
+      providers: [github({ issues: [{ repo: "acme/api", title: "t", body: "" }] })],
+    });
+    await env.fetch("https://api.github.com/repos/acme/api/issues");
+    expect(env.wasCalled("github", { pathIncludes: "/repos/acme/api/" })).toBe(true);
+    expect(env.wasCalled("github", { pathIncludes: "/repos/other/" })).toBe(false);
+  });
+
+  it("S3 returns 404 for missing object", async () => {
+    const env = new GhostEnv({
+      providers: [s3({ objects: [{ bucket: "b", key: "a", body: "x" }] })],
+    });
+    const res = await env.fetch("https://s3.amazonaws.com/b/nope");
+    expect(res.status).toBe(404);
+  });
+
+  it("chaos failureRate 0 never simulates failure", async () => {
+    const env = new GhostEnv({
+      seed: 42,
+      chaos: { failureRate: 0 },
+      providers: [github({ issues: [{ repo: "a/b", title: "t", body: "" }] })],
+    });
+    for (let i = 0; i < 8; i++) {
+      const res = await env.fetch("https://api.github.com/repos/a/b/issues");
+      expect(res.status).toBe(200);
+    }
+  });
+
+  it("exportRecordingMarkdown and exportHAR include call metadata", async () => {
+    const env = new GhostEnv({
+      providers: [github({ issues: [{ repo: "acme/api", title: "t", body: "" }] })],
+    });
+    await env.fetch("https://api.github.com/repos/acme/api/issues");
+    const calls = env.calls();
+    expect(exportRecordingMarkdown(calls)).toContain("github");
+    expect(exportRecordingMarkdown(calls)).toContain("# ghost-env recording");
+    const har = JSON.parse(exportHAR(calls)) as { log: { entries: unknown[] } };
+    expect(har.log.entries.length).toBeGreaterThanOrEqual(1);
+  });
+
+  it("ReplayFixture returns canned responses in order and reset", async () => {
+    const rows: CallRecord[] = [
+      {
+        id: "c1",
+        provider: "p",
+        method: "GET",
+        url: "http://x/1",
+        responseStatus: 200,
+        responseBody: { n: 1 },
+        durationMs: 0,
+      },
+      {
+        id: "c2",
+        provider: "p",
+        method: "GET",
+        url: "http://x/2",
+        responseStatus: 404,
+        responseBody: "gone",
+        durationMs: 0,
+      },
+    ];
+    const fx = new ReplayFixture(rows);
+    const r1 = fx.nextResponse();
+    expect(r1?.status).toBe(200);
+    expect(r1 && (await r1.json())).toEqual({ n: 1 });
+    const r2 = fx.nextResponse();
+    expect(r2?.status).toBe(404);
+    expect(r2 && (await r2.text())).toBe("gone");
+    expect(fx.nextResponse()).toBeNull();
+    fx.reset();
+    const again = fx.nextResponse();
+    expect(again?.status).toBe(200);
+    expect(again && (await again.json())).toEqual({ n: 1 });
+  });
+
+  it("ReplayFixture.fromJSON roundtrips", () => {
+    const rows: CallRecord[] = [
+      {
+        id: "c1",
+        provider: "p",
+        method: "GET",
+        url: "http://x",
+        responseStatus: 201,
+        responseBody: { ok: true },
+        durationMs: 1,
+      },
+    ];
+    const json = JSON.stringify(rows);
+    const fx = ReplayFixture.fromJSON(json);
+    expect(fx.nextResponse()?.status).toBe(201);
   });
 
   it("runEval scenarios", async () => {
