@@ -7,4 +7,4 @@ pip install -e ./python
 pip install -e '.[dev]' && pytest   # dev + tests
 ```
 
-See also [docs/python.md](../docs/python.md).
+Python-specific reference: **[slaps.dev/docs/ghost-env/python](https://slaps.dev/docs/ghost-env/python)**.

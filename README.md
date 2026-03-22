@@ -79,13 +79,17 @@ print(export_recording_json(env.calls()))
 
 ## Documentation
 
+Hosted on **[slaps.dev](https://slaps.dev)**:
+
 | Doc | Contents |
 |-----|----------|
-| [Getting started](docs/getting-started.md) | Providers, `fetch`, recording |
-| [Presets](docs/presets.md) | URLs, config shapes, matching rules |
-| [API reference](docs/api-reference.md) | `GhostEnv`, `Provider`, eval, replay, exports |
-| [Testing & chaos](docs/testing-and-chaos.md) | `runEval`, chaos options, failure recording |
-| [Python notes](docs/python.md) | Node vs Python differences |
+| [Overview](https://slaps.dev/docs/ghost-env/) | Product summary and doc index |
+| [Getting started](https://slaps.dev/docs/ghost-env/getting-started) | Providers, `fetch`, recording |
+| [Use cases](https://slaps.dev/docs/ghost-env/use-cases) | Agents, execpad, eval patterns |
+| [Presets](https://slaps.dev/docs/ghost-env/presets) | URLs, config shapes, matching rules |
+| [API reference](https://slaps.dev/docs/ghost-env/api-reference) | `GhostEnv`, `Provider`, eval, replay, exports |
+| [Testing & chaos](https://slaps.dev/docs/ghost-env/testing-and-chaos) | `runEval`, chaos options, failure recording |
+| [Python notes](https://slaps.dev/docs/ghost-env/python) | Node vs Python differences |
 
 ---
 
