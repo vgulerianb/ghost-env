@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any, Callable, TypedDict
 
-from ghost_env.ghost_env import GhostEnv, GhostEnvConfig
+from stubfetch.ghost_env import GhostEnv, GhostEnvConfig
 
 
 class Scenario(TypedDict, total=False):

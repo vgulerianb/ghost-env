@@ -5,7 +5,7 @@ export function exportRecordingJSON(calls: CallRecord[]): string {
 }
 
 export function exportRecordingMarkdown(calls: CallRecord[]): string {
-  const lines = ["# ghost-env recording", ""];
+  const lines = ["# stubfetch recording", ""];
   for (const c of calls) {
     lines.push(`## ${c.provider} ${c.method} ${c.url}`);
     lines.push(`- status: ${c.responseStatus}`);
@@ -15,7 +15,7 @@ export function exportRecordingMarkdown(calls: CallRecord[]): string {
   return lines.join("\n");
 }
 
-export function exportHAR(calls: CallRecord[], title = "ghost-env"): string {
+export function exportHAR(calls: CallRecord[], title = "stubfetch"): string {
   const entries = calls.map((c, i) => ({
     startedDateTime: new Date().toISOString(),
     time: c.durationMs,

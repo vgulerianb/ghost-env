@@ -1,11 +1,11 @@
-# ghost-env documentation
+# stubfetch documentation
 
 Browse on **slaps.dev** (same content as the markdown in this folder):
 
-- [Overview](https://slaps.dev/docs/ghost-env/)
-- [Getting started](https://slaps.dev/docs/ghost-env/getting-started)
-- [Use cases](https://slaps.dev/docs/ghost-env/use-cases)
-- [Presets](https://slaps.dev/docs/ghost-env/presets)
-- [API reference](https://slaps.dev/docs/ghost-env/api-reference)
-- [Testing & chaos](https://slaps.dev/docs/ghost-env/testing-and-chaos)
-- [Python package](https://slaps.dev/docs/ghost-env/python)
+- [Overview](https://slaps.dev/docs/stubfetch/)
+- [Getting started](https://slaps.dev/docs/stubfetch/getting-started)
+- [Use cases](https://slaps.dev/docs/stubfetch/use-cases)
+- [Presets](https://slaps.dev/docs/stubfetch/presets)
+- [API reference](https://slaps.dev/docs/stubfetch/api-reference)
+- [Testing & chaos](https://slaps.dev/docs/stubfetch/testing-and-chaos)
+- [Python package](https://slaps.dev/docs/stubfetch/python)

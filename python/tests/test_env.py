@@ -1,4 +1,4 @@
-from ghost_env import (
+from stubfetch import (
     GhostEnv,
     anthropic,
     github,

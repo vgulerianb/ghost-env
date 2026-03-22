@@ -1,4 +1,4 @@
-# ghost-env
+# stubfetch
 
 **Deterministic, in-process fake HTTP APIs** for testing agents and tools. Swap real network calls for canned **GitHub**, **Stripe**, **Postgres-shaped** data, **OpenAI** / **Anthropic**-style LLM JSON, **S3**-like objects, **Slack** Web API responses—while **recording** traffic, exporting **JSON / Markdown / HAR**, running **eval scenarios**, and optionally injecting **chaos** (latency, random failures).
 
@@ -11,7 +11,7 @@ Same ideas in **TypeScript** (npm) and **Python** (PyPI / local install).
 ### JavaScript / TypeScript (npm)
 
 ```bash
-npm install ghost-env
+npm install stubfetch
 ```
 
 Requires **Node.js ≥ 18**. No runtime npm dependencies.
@@ -19,7 +19,7 @@ Requires **Node.js ≥ 18**. No runtime npm dependencies.
 ### Python
 
 ```bash
-pip install ghost-env
+pip install stubfetch
 ```
 
 From a clone (editable):
@@ -37,7 +37,7 @@ Requires **Python ≥ 3.10**.
 ### TypeScript
 
 ```ts
-import { GhostEnv, github, exportRecordingJSON } from "ghost-env";
+import { GhostEnv, github, exportRecordingJSON } from "stubfetch";
 
 const env = new GhostEnv({
   seed: 42,
@@ -52,7 +52,7 @@ console.log(exportRecordingJSON(env.calls()));
 ### Python
 
 ```python
-from ghost_env import GhostEnv, github, export_recording_json
+from stubfetch import GhostEnv, github, export_recording_json
 
 env = GhostEnv(
     {"seed": 1, "providers": [github({"issues": [{"repo": "acme/api", "title": "Bug"}]})]}
@@ -83,13 +83,13 @@ Hosted on **[slaps.dev](https://slaps.dev)**:
 
 | Doc | Contents |
 |-----|----------|
-| [Overview](https://slaps.dev/docs/ghost-env/) | Product summary and doc index |
-| [Getting started](https://slaps.dev/docs/ghost-env/getting-started) | Providers, `fetch`, recording |
-| [Use cases](https://slaps.dev/docs/ghost-env/use-cases) | Agents, execpad, eval patterns |
-| [Presets](https://slaps.dev/docs/ghost-env/presets) | URLs, config shapes, matching rules |
-| [API reference](https://slaps.dev/docs/ghost-env/api-reference) | `GhostEnv`, `Provider`, eval, replay, exports |
-| [Testing & chaos](https://slaps.dev/docs/ghost-env/testing-and-chaos) | `runEval`, chaos options, failure recording |
-| [Python notes](https://slaps.dev/docs/ghost-env/python) | Node vs Python differences |
+| [Overview](https://slaps.dev/docs/stubfetch/) | Product summary and doc index |
+| [Getting started](https://slaps.dev/docs/stubfetch/getting-started) | Providers, `fetch`, recording |
+| [Use cases](https://slaps.dev/docs/stubfetch/use-cases) | Agents, agentpad, eval patterns |
+| [Presets](https://slaps.dev/docs/stubfetch/presets) | URLs, config shapes, matching rules |
+| [API reference](https://slaps.dev/docs/stubfetch/api-reference) | `GhostEnv`, `Provider`, eval, replay, exports |
+| [Testing & chaos](https://slaps.dev/docs/stubfetch/testing-and-chaos) | `runEval`, chaos options, failure recording |
+| [Python notes](https://slaps.dev/docs/stubfetch/python) | Node vs Python differences |
 
 ---
 

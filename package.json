@@ -1,5 +1,5 @@
 {
-  "name": "ghost-env",
+  "name": "stubfetch",
   "version": "0.1.0",
   "description": "Deterministic fake APIs and DB for AI agent tests",
   "keywords": [
@@ -19,7 +19,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/vgulerianb/ghost-env.git"
+    "url": "git+https://github.com/vgulerianb/stubfetch.git"
   },
   "type": "module",
   "sideEffects": false,

@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from typing import Any
 
-from ghost_env.recorder import CallRecord
+from stubfetch.recorder import CallRecord
 
 
 def export_recording_json(calls: list[CallRecord]) -> str:
@@ -11,7 +11,7 @@ def export_recording_json(calls: list[CallRecord]) -> str:
 
 
 def export_recording_markdown(calls: list[CallRecord]) -> str:
-    lines = ["# ghost-env recording", ""]
+    lines = ["# stubfetch recording", ""]
     for c in calls:
         lines.append(f"## {c.provider} {c.method} {c.url}")
         lines.append(f"- status: {c.response_status}")
@@ -19,7 +19,7 @@ def export_recording_markdown(calls: list[CallRecord]) -> str:
     return "\n".join(lines)
 
 
-def export_har(calls: list[CallRecord], title: str = "ghost-env") -> str:
+def export_har(calls: list[CallRecord], title: str = "stubfetch") -> str:
     entries = []
     for c in calls:
         entries.append(

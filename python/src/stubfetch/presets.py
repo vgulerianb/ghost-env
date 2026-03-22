@@ -5,7 +5,7 @@ import re
 from typing import Any, Callable
 from urllib.parse import parse_qs, urlparse
 
-from ghost_env.world import WorldState
+from stubfetch.world import WorldState
 
 
 def _next_github_id(world: WorldState) -> int:

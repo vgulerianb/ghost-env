@@ -78,7 +78,7 @@ export class GhostEnv {
           return res;
         }
       }
-      throw new Error(`ghost-env: no provider matched ${method} ${url}`);
+      throw new Error(`stubfetch: no provider matched ${method} ${url}`);
     };
     try {
       const res = await applyChaos(this.chaos, this.rng, run);

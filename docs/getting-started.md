@@ -3,13 +3,13 @@
 ## Install
 
 ```bash
-npm install ghost-env
+npm install stubfetch
 ```
 
 ## Minimal example
 
 ```ts
-import { GhostEnv, github } from "ghost-env";
+import { GhostEnv, github } from "stubfetch";
 
 const env = new GhostEnv({
   seed: 1,

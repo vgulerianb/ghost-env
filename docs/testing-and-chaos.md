@@ -5,7 +5,7 @@
 `runEval` runs an array of scenarios sequentially. Each scenario creates a **fresh** `GhostEnv` from `config`, runs `run(env)`, then optional `assert(env)`.
 
 ```ts
-import { runEval, defineScenario, github } from "ghost-env";
+import { runEval, defineScenario, github } from "stubfetch";
 
 const report = await runEval([
   defineScenario({
@@ -39,7 +39,7 @@ new GhostEnv({
 ```
 
 - **`failureRate`** uses the seeded RNG; **`0`** disables simulated failures (falsy check).
-- Failures throw **`ghost-env chaos: simulated failure`** (after optional latency).
+- Failures throw **`stubfetch chaos: simulated failure`** (after optional latency).
 
 ## Recording exports
 
@@ -51,4 +51,4 @@ Use these after `fetch` calls with `env.calls()`.
 
 ## Python
 
-`run_eval` / `define_scenario` mirror the npm API; scenarios may use a `check` callable instead of `assert` (see `ghost_env.eval_runner`).
+`run_eval` / `define_scenario` mirror the npm API; scenarios may use a `check` callable instead of `assert` (see `stubfetch.eval_runner`).

@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from typing import Any
 
-from ghost_env.recorder import CallRecord
+from stubfetch.recorder import CallRecord
 
 
 class ReplayFixture:

@@ -14,7 +14,7 @@ export async function applyChaos<T>(
     await new Promise((r) => setTimeout(r, opts.minLatencyMs));
   }
   if (opts?.failureRate && rng() < opts.failureRate) {
-    throw new Error("ghost-env chaos: simulated failure");
+    throw new Error("stubfetch chaos: simulated failure");
   }
   return fn();
 }

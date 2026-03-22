@@ -5,9 +5,9 @@ import re
 import time
 from typing import Any, Callable, TypedDict
 
-from ghost_env.recorder import Recorder
-from ghost_env.seed import mulberry32
-from ghost_env.world import WorldState
+from stubfetch.recorder import Recorder
+from stubfetch.seed import mulberry32
+from stubfetch.world import WorldState
 
 
 class Provider(TypedDict, total=False):
@@ -76,7 +76,7 @@ class GhostEnv:
                 response_body="chaos",
                 duration_ms=(time.perf_counter() - start) * 1000,
             )
-            raise RuntimeError("ghost-env chaos")
+            raise RuntimeError("stubfetch chaos")
 
         status = 500
         text = ""
@@ -91,7 +91,7 @@ class GhostEnv:
                     status, text = res
                     break
             else:
-                raise RuntimeError(f"ghost-env: no provider matched {method} {url}")
+                raise RuntimeError(f"stubfetch: no provider matched {method} {url}")
         except Exception as e:  # noqa: BLE001
             self._recorder.record(
                 provider="error",

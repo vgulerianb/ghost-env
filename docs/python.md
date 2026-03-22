@@ -10,7 +10,7 @@ pip install -e ./python
 ## Usage
 
 ```python
-from ghost_env import GhostEnv, github, export_recording_json
+from stubfetch import GhostEnv, github, export_recording_json
 
 env = GhostEnv(
     {
@@ -27,15 +27,15 @@ print(export_recording_json(env.calls()))
 ## Differences from Node
 
 - **`fetch`** returns **`(status: int, body: str)`** instead of `Response`.
-- Presets are functions returning **`dict`** provider specs: `github`, `stripe`, `postgres`, `s3`, `slack`, `anthropic` (see `ghost_env.presets`).
+- Presets are functions returning **`dict`** provider specs: `github`, `stripe`, `postgres`, `s3`, `slack`, `anthropic` (see `stubfetch.presets`).
 - **OpenAI**-style preset is not mirrored in Python yet; extend `presets.py` if needed.
 
 ## Modules
 
 | Module | Role |
 |--------|------|
-| `ghost_env.ghost_env` | `GhostEnv`, config types |
-| `ghost_env.presets` | Built-in provider factories |
-| `ghost_env.export` | JSON / Markdown / HAR export |
-| `ghost_env.eval_runner` | `run_eval`, `define_scenario` |
-| `ghost_env.replay` | `ReplayFixture` |
+| `stubfetch.ghost_env` | `GhostEnv`, config types |
+| `stubfetch.presets` | Built-in provider factories |
+| `stubfetch.export` | JSON / Markdown / HAR export |
+| `stubfetch.eval_runner` | `run_eval`, `define_scenario` |
+| `stubfetch.replay` | `ReplayFixture` |

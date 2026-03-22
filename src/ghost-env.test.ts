@@ -226,7 +226,7 @@ describe("GhostEnv", () => {
     await env.fetch("https://api.github.com/repos/acme/api/issues");
     const calls = env.calls();
     expect(exportRecordingMarkdown(calls)).toContain("github");
-    expect(exportRecordingMarkdown(calls)).toContain("# ghost-env recording");
+    expect(exportRecordingMarkdown(calls)).toContain("# stubfetch recording");
     const har = JSON.parse(exportHAR(calls)) as { log: { entries: unknown[] } };
     expect(har.log.entries.length).toBeGreaterThanOrEqual(1);
   });
